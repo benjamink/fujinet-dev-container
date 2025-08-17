@@ -15,3 +15,16 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
         unzip \
         bison \
     && rm -rf /var/lib/apt/lists/*
+
+# Install cc65
+RUN <<EOF
+  set -e
+  cd /tmp
+  git clone https://github.com/cc65/cc65.git
+  cd cc65
+  export PREFIX=/usr/local
+  make
+  make install
+  cd /tmp
+  rm -rf cc65*
+EOF
