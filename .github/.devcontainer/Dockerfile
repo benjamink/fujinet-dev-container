@@ -2,19 +2,23 @@ FROM mcr.microsoft.com/devcontainers/base:${VARIANT:-bullseye}
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get -y install --no-install-recommends \
-        curl \
-        ca-certificates \
-        apt-transport-https \
-        gnupg2 \
-        lsb-release \
-        software-properties-common \
-        build-essential \
-        flex \
-        git \
-        unzip \
-        bison \
-    && rm -rf /var/lib/apt/lists/*
+RUN <<EOF
+  set -e
+  apt-get update
+  apt-get -y install --no-install-recommends \
+    curl \
+    ca-certificates \
+    apt-transport-https \
+    gnupg2 \
+    lsb-release \
+    software-properties-common \
+    build-essential \
+    flex \
+    git \
+    unzip \
+    bison 
+  rm -rf /var/lib/apt/lists/*
+EOF
 
 # Install cc65
 RUN <<EOF
@@ -27,4 +31,18 @@ RUN <<EOF
   make install
   cd /tmp
   rm -rf cc65*
+EOF
+
+# Install LWTOOLS for CMOC
+ARG LWTOOLS_VERSION
+RUN <<EOF
+  set -e
+  cd /tmp
+  wget http://www.lwtools.ca/releases/lwtools/lwtools-${LWTOOLS_VERSION}.tar.gz
+  tar -xf lwtools-${LWTOOLS_VERSION}.tar.gz
+  cd lwtools-${LWTOOLS_VERSION}
+  make
+  make install
+  cd /tmp
+  rm -rf lwtools*
 EOF
