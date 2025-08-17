@@ -10,7 +10,9 @@
     "args": {
       // Update 'VARIANT' to pick a Debian version: bullseye, buster.
       "VARIANT": "bullseye",
-      "LWTOOLS_VERSION": "4.24"
+      "LWTOOLS_VERSION": "4.24",
+      "CMOC_VERSION": "0.1.93",
+      "AC_VER": "1.10.1"
     }
   }
   
